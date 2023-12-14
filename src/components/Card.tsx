@@ -17,7 +17,7 @@ export default function Card({ card }: { card: cardProps }) {
                 <div className="card-body">
                     <p className="card-text">{card.title}</p>
                     <p className="card-text">{card.price} руб.</p>
-                    <a href={`/catalog/:${card.id}`} className="btn btn-outline-primary">Заказать</a>
+                    <p onClick={onClick} className="btn btn-outline-primary">Заказать</p>
                 </div>
             </div>
         </div>
