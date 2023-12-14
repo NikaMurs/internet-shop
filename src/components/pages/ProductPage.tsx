@@ -148,7 +148,7 @@ export default function ProductPage(props: bannerProps) {
                                             </span>
                                             </p>
                                         </div>
-                                        <button className={`btn btn-danger btn-block btn-lg ${sizeAvalible}`} disabled={sizeSelected ? false : true} onClick={onClickCart}>В корзину</button>
+                                        <button className={`btn btn-danger btn-block btn-lg ${sizeAvalible}`} disabled={sizeSelected ? false : true} onClick={onClickCart}>{sizeSelected ? 'В корзину' : 'Выберите размер'}</button>
                                     </div>
                                 </div>
                             </section>
