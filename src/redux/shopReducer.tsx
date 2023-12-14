@@ -124,7 +124,7 @@ export const shopReducer = createSlice({
             state.postStatus = 102;
         })
         builder.addCase(fetchPostData.fulfilled, (state, action) => {
-            state.postStatus = action.payload
+            state.postStatus = 204
         })
         builder.addCase(fetchPostData.rejected, (state, action) => {
             state.postStatus = 500

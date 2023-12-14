@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPostData, removeItemToCart, setCartCount } from "../../redux/shopReducer";
 import { AppDispatch } from "../../redux/configStore";
 import Preloader from "../preloader";
+import Error from '../error'
 
 
 export default function CartPage(props: bannerProps) {
@@ -15,19 +16,19 @@ export default function CartPage(props: bannerProps) {
     let totalPrice = 0;
     const [itemsList, setItemsList] = useState([])
 
-    useEffect(()=>{
-        if (localStorage.cartItems){
+    useEffect(() => {
+        if (localStorage.cartItems) {
             setItemsList(JSON.parse(localStorage.cartItems))
         }
     }, [])
 
-    useEffect(()=>{
-        if (postStatus === 204){
+    useEffect(() => {
+        if (postStatus === 204) {
             localStorage.clear()
             setItemsList([])
             dispatch(setCartCount(0))
         }
-        if (postStatus === 500){
+        if (postStatus === 500) {
             console.log('500')
         }
     }, [postStatus])
@@ -45,13 +46,13 @@ export default function CartPage(props: bannerProps) {
         setItemsList(newLC)
     }
 
-    function onSubmitForm(e: React.FormEvent<HTMLFormElement>){
+    function onSubmitForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let phone = e.currentTarget.querySelector('#phone') as HTMLInputElement
         let address = e.currentTarget.querySelector('#address') as HTMLInputElement
         let agreement = e.currentTarget.querySelector('#agreement') as HTMLInputElement
 
-        if (agreement.checked && phone.value.trim().length && address.value.trim().length){
+        if (agreement.checked && phone.value.trim().length && address.value.trim().length) {
             let obg = {
                 owner: {
                     phone: phone.value,
@@ -63,7 +64,7 @@ export default function CartPage(props: bannerProps) {
                 url: '/api/order',
                 type: 'placeOrder',
                 body: obg,
-            }))            
+            }))
         }
 
     }
@@ -119,30 +120,31 @@ export default function CartPage(props: bannerProps) {
                                     maxWidth: '30rem',
                                     margin: '0 auto'
                                 }}>
-                                    <form className="card-body" onSubmit={(e)=>{onSubmitForm(e)}}>
+                                    <form className="card-body" onSubmit={(e) => { onSubmitForm(e) }}>
                                         <div className="form-group">
                                             <label htmlFor="phone">Телефон</label>
-                                            <input className="form-control" id="phone" placeholder="Ваш телефон" />
+                                            <input className="form-control" id="phone" placeholder="Ваш телефон" required />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="address">Адрес доставки</label>
-                                            <input className="form-control" id="address" placeholder="Адрес доставки" />
+                                            <input className="form-control" id="address" placeholder="Адрес доставки" required />
                                         </div>
                                         <div className="form-group form-check">
-                                            <input type="checkbox" className="form-check-input" id="agreement" />
+                                            <input type="checkbox" className="form-check-input" id="agreement" required/>
                                             <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
                                         </div>
                                         <button type="submit" className="btn btn-outline-secondary">Оформить</button>
                                     </form>
                                     {postStatus === 102 ? <Preloader /> : ''}
                                     {postStatus === 204 ? <p className="text-center">Заказ оформлен</p> : ''}
+                                    {postStatus === 500 ? <Error /> : ''}
                                 </div>
                             </section>
                         </>
                         :
                         <section className="cart">
-                            {postStatus === 204 ? <h2 className="text-center">Заказ оформлен</h2> : 
-                            <h2 className="text-center">Корзина пуста</h2>}
+                            {postStatus === 204 ? <h2 className="text-center">Заказ оформлен</h2> :
+                                <h2 className="text-center">Корзина пуста</h2>}
                         </section>}
 
 

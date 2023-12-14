@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { addItemToCart, fetchGetData } from "../../redux/shopReducer"
 import { AppDispatch } from "../../redux/configStore"
 import Preloader from "../preloader"
+import Error from '../error'
 
 export default function ProductPage(props: bannerProps) {
     const Banner = props.children
@@ -96,6 +97,7 @@ export default function ProductPage(props: bannerProps) {
                     <Banner />
                     {itemInfo.isLoading ?
                         <Preloader /> :
+                        !itemInfo.hasError ?
                         <>
                             <section className="catalog-item">
                                 <h2 className="text-center">{itemInfo.data.title}</h2>
@@ -150,7 +152,8 @@ export default function ProductPage(props: bannerProps) {
                                     </div>
                                 </div>
                             </section>
-                        </>
+                        </> :
+                        <Error />
                     }
 
                 </div>
