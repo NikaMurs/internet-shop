@@ -6,7 +6,7 @@ export default function Card({ card }: { card: cardProps }) {
     const navigate = useNavigate()
 
     function onClick(){
-        navigate(`/#/catalog/:${card.id}`)
+        navigate(`/catalog/:${card.id}`)
     }
 
     return (
@@ -17,7 +17,7 @@ export default function Card({ card }: { card: cardProps }) {
                 <div className="card-body">
                     <p className="card-text">{card.title}</p>
                     <p className="card-text">{card.price} руб.</p>
-                    <a href={`/#/catalog/:${card.id}`} className="btn btn-outline-primary">Заказать</a>
+                    <a href={`/catalog/:${card.id}`} className="btn btn-outline-primary">Заказать</a>
                 </div>
             </div>
         </div>

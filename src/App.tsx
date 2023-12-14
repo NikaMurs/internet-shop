@@ -23,7 +23,7 @@ function App() {
         <Route path='/catalog' element={<CatalogPage children={banner}/>} />
         <Route path='/about' element={<AboutPage children={banner}/>} />
         <Route path='/contacts' element={<ContactsPage children={banner}/>} />
-        <Route path='/#/catalog:productID' element={<ProductPage children={banner}/>} />
+        <Route path='/catalog:productID' element={<ProductPage children={banner}/>} />
         <Route path='/cart' element={<CartPage children={banner}/>} />
         <Route path='*' element={<Error404Page  children={banner}/>} />
       </Routes>
