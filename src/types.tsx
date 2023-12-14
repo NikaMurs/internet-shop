@@ -49,10 +49,12 @@ export type StateType = {
         cartCount: number,
         topSales: {
             isLoading: boolean,
+            hasError: boolean,
             data: Array<cardProps>
         },
         itemInfo: {
             isLoading: boolean,
+            hasError: boolean,
             data: {
                 id: number,
                 category: number,
@@ -75,15 +77,18 @@ export type StateType = {
         }
         categories: {
             isLoading: boolean,
+            hasError: boolean,
             data: Array<categoriesItem>
         },
         items: {
             isLoading: boolean,
+            hasError: boolean,
             data: Array<cardProps>
         },
         moreItems: {
             isDataOver: boolean,
             isLoading: boolean,
+            hasError: boolean,
             data: Array<cardProps>
         }
     }

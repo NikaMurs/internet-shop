@@ -4,10 +4,11 @@ import { AppDispatch } from "../redux/configStore"
 import { useEffect, useState } from "react"
 import { changeCategory, fetchGetData } from "../redux/shopReducer"
 import Preloader from "./preloader"
+import Error from './error'
 import Card from "./Card"
 
 export default function Catalog({ categories }: { categories: Array<categoriesItem> }) {
-  
+
   const dispatch = useDispatch<AppDispatch>()
   const { items, moreItems, search } = useSelector((state: StateType) => state.shop)
   const [active, setActive] = useState(0)
@@ -83,17 +84,22 @@ export default function Catalog({ categories }: { categories: Array<categoriesIt
       </ul>
       {items.isLoading ?
         <Preloader /> :
-        <div className="row">
-          {items.data.map((el) => {
-            return <Card card={el} key={el.id} />
-          })}
-        </div>}
+        !items.hasError ?
+          <div className="row">
+            {items.data.map((el) => {
+              return <Card card={el} key={el.id} />
+            })}
+          </div> :
+          <Error />
+      }
 
       {moreItems.isDataOver ? undefined :
         <div className="text-center">
           {moreItems.isLoading ?
             <Preloader /> :
-            <button className="btn btn-outline-primary" onClick={onClickMore}>Загрузить ещё</button>
+            !moreItems.hasError ? 
+            <button className="btn btn-outline-primary" onClick={onClickMore}>Загрузить ещё</button>:
+            <Error />
           }
         </div>}
 

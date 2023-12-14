@@ -7,6 +7,7 @@ const initialState = {
     cartCount: 0,
     itemInfo: {
         isLoading: true,
+        hasError: false,
         data: {
             id: 0,
             category: 0,
@@ -26,19 +27,23 @@ const initialState = {
     },
     topSales: {
         isLoading: true,
+        hasError: false,
         data: []
     },
     categories: {
         isLoading: true,
+        hasError: false,
         data: []
     },
     items: {
         isLoading: true,
+        hasError: false,
         data: []
     },
     moreItems: {
         isDataOver: false,
         isLoading: false,
+        hasError: false,
         data: [],
     }
 }
@@ -53,7 +58,7 @@ export const fetchGetData = createAsyncThunk(
                 .then((responce) => responce.json());
             return responce;
         } catch (e) {
-            rejectWithValue(e)
+            throw rejectWithValue(e)
         }
     }
 )
@@ -61,14 +66,17 @@ export const fetchGetData = createAsyncThunk(
 export const fetchPostData = createAsyncThunk(
     'fetchPostData',
     async (props: fetchPostProps, { rejectWithValue }) => {
-        
+        try {
             const responce = await fetch(
                 `${process.env.REACT_APP_URL + props.url}`, {
-                    method: "POST",
-                    body: JSON.stringify(props.body)
-                })
+                method: "POST",
+                body: JSON.stringify(props.body)
+            })
                 .then((responce) => responce.status);
-                return responce
+            return responce
+        } catch (e) {
+            throw rejectWithValue(e)
+        }
     }
 )
 
@@ -98,6 +106,7 @@ export const shopReducer = createSlice({
         })
         builder.addCase(fetchGetData.fulfilled, (state, action) => {
             state[action.meta.arg.type].isLoading = false;
+            state[action.meta.arg.type].hasError = false;
             state[action.meta.arg.type].data = action.payload;
 
             if (action.meta.arg.type === 'moreItems') {
@@ -106,6 +115,10 @@ export const shopReducer = createSlice({
                     state.moreItems.isDataOver = true
                 }
             }
+        })
+        builder.addCase(fetchGetData.rejected, (state, action) => {
+            state[action.meta.arg.type].isLoading = false;
+            state[action.meta.arg.type].hasError = true;
         })
         builder.addCase(fetchPostData.pending, (state, action) => {
             state.postStatus = 102;
